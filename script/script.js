@@ -30,7 +30,7 @@ const displayVideo = (videos) => {
         videoContainer.innerHTML = `
         <div class="col-span-full py-10 space-y-3">
             <div class="flex justify-center">
-                <img src="../assets/Icon.png" />
+                <img src="assets/Icon.png" />
             </div>
             <h2 class="text-center font-bold">Oops!! Sorry, There is no <br> content here</h2>
         </div>        
