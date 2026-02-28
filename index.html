@@ -43,13 +43,19 @@
     <section class="w-11/12 mx-auto py-5">
         <nav id="categoryContainer" class="flex justify-center gap-4">
             <div>
-                <button onclick="getvideo()" class="btn bg-btnBgRed text-white">All</button>
+                <button id="getVideoAll" onclick="getvideo()"
+                    class="btn bg-btnBgGray text-black hover:bg-btnBgRed hover:text-white">All</button>
             </div>
         </nav>
     </section>
     <!-- video container -->
     <section id="videoContainer" class="w-11/12 mx-auto grid grid-cols-1 lg:grid-cols-4 gap-4">
-        
+        <div class="col-span-full py-10 space-y-3">
+            <div class="flex justify-center">
+                <img src="assets/Icon.png" />
+            </div>
+            <h2 class="text-center font-bold">Oops!! Sorry, There is no <br> content here</h2>
+        </div>
     </section>
     <script src="script/script.js"></script>
     <script src="script/utilities.js"></script>

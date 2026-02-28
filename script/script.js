@@ -1,3 +1,11 @@
+const acriveClassRemove = () => {
+    const acriveClass = document.getElementsByClassName('bg-btnBgRed');
+    for(const active of acriveClass){
+        active.classList.remove('bg-btnBgRed');
+        active.classList.remove('text-white');
+    }
+}
+
 const getCategories = () => {
     fetch('https://openapi.programming-hero.com/api/phero-tube/categories')
         .then(res => res.json())
@@ -6,18 +14,30 @@ const getCategories = () => {
 const getvideo = () => {
     fetch('https://openapi.programming-hero.com/api/phero-tube/videos')
         .then(res => res.json())
-        .then(data => displayVideo(data.videos))
+        .then(data => {
+            acriveClassRemove()
+            const btnAll = getElementId('getVideoAll');
+            btnAll.classList.add('bg-btnBgRed')
+            btnAll.classList.add('text-white')
+            displayVideo(data.videos)
+        })
 }
 const loadCategoryVideos = (id) => {
     const url = ` https://openapi.programming-hero.com/api/phero-tube/category/${id}`
-    fetch(url).then(res => res.json()).then(data => displayVideo(data.category))
+    fetch(url).then(res => res.json()).then(data => {
+        acriveClassRemove();
+        const active = getElementId(`btn-${id}`)
+        active.classList.add('bg-btnBgRed')
+        active.classList.add('text-white')
+        displayVideo(data.category)
+    })
 }
 const displayCategories = (categories) => {
     for (const category of categories) {
         const categoryContainer = getElementId('categoryContainer');
         const div = newElement('div')
         div.innerHTML = `
-        <button onclick="loadCategoryVideos(${category.category_id})" class="btn bg-btnBgGray hover:bg-btnBgRed hover:text-white duration-200">${category.category}</button>
+        <button id="btn-${category.category_id}" onclick="loadCategoryVideos(${category.category_id})" class="btn bg-btnBgGray hover:bg-btnBgRed hover:text-white duration-200">${category.category}</button>
         `;
         categoryContainer.append(div);
     }
@@ -67,4 +87,3 @@ const displayVideo = (videos) => {
     }
 }
 getCategories()
-getvideo()
