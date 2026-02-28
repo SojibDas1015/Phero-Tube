@@ -18,12 +18,26 @@
     <style type="text/tailwindcss">
         @theme{
             --font-inter: "Inter", sans-serif;
+            --color-btnBgGray: #25252520;
+            --color-btnBgRed:  #FF1F3D;
         }
     </style>
 </head>
 
 <body>
-    
+    <header>
+        <nav class="w-11/12 mx-auto flex justify-between items-center py-4 border-b-2 border-gray-200">
+            <div class="logo">
+                <img class="w-[150px]" src="assets/Logo.png" alt="">
+            </div>
+            <div class="short">
+                <button class="btn bg-btnBgGray">Short by View</button>
+            </div>
+            <div class="blog">
+                <button class="btn bg-btnBgRed text-white">Blog</button>
+            </div>
+        </nav>
+    </header>
 </body>
 
-</html>  
+</html>
