@@ -1,18 +1,17 @@
 const acriveClassRemove = () => {
     const acriveClass = document.getElementsByClassName('bg-btnBgRed');
-    for(const active of acriveClass){
+    for (const active of acriveClass) {
         active.classList.remove('bg-btnBgRed');
         active.classList.remove('text-white');
     }
 }
-
 const getCategories = () => {
     fetch('https://openapi.programming-hero.com/api/phero-tube/categories')
         .then(res => res.json())
         .then(data => displayCategories(data.categories))
 }
-const getvideo = () => {
-    fetch('https://openapi.programming-hero.com/api/phero-tube/videos')
+const getvideo = (searchText = '') => {
+    fetch(`https://openapi.programming-hero.com/api/phero-tube/videos?title=${searchText}`)
         .then(res => res.json())
         .then(data => {
             acriveClassRemove()
@@ -32,6 +31,18 @@ const loadCategoryVideos = (id) => {
         displayVideo(data.category)
     })
 }
+const loadVideoDettails = (videoId) => {
+    const url = `https://openapi.programming-hero.com/api/phero-tube/video/${videoId}`;
+    fetch(url).then(res => res.json()).then(data => displayVideoDetails(data.video))
+}
+const displayVideoDetails = (video) => {
+    const modal = getElementId('display_Details');
+    modal.showModal();
+    const modalInner = getElementId('modalInner');
+    modalInner.innerHTML = `
+        <h2>${video.title}</h2>
+    `;
+}
 const displayCategories = (categories) => {
     for (const category of categories) {
         const categoryContainer = getElementId('categoryContainer');
@@ -43,10 +54,10 @@ const displayCategories = (categories) => {
     }
 }
 const displayVideo = (videos) => {
+    console.log(videos)
     const videoContainer = getElementId('videoContainer');
     videoContainer.innerHTML = '';
-    if(videos.length === 0)
-    {
+    if (videos.length === 0) {
         videoContainer.innerHTML = `
         <div class="col-span-full py-10 space-y-3">
             <div class="flex justify-center">
@@ -75,15 +86,20 @@ const displayVideo = (videos) => {
                     <h2 class="font-bold text-sm">${video.title}</h2>
                     <div class="flex items-center gap-2">
                         <p>Awlad Hossain</p>
-                        <img class="w-[20px] h-[20px]" src="https://img.icons8.com/?size=48&id=QMxOVe0B9VzG&format=png" alt="">
+                        ${video.authors[0].verified == true ? `<img class="w-[20px] h-[20px]" src="https://img.icons8.com/?size=48&id=QMxOVe0B9VzG&format=png" alt=""></img>` : ''}
                     </div>
-                    <p>${video.others.views} Views</p>
+                    <p>${video.others.views} Views</p> 
                 </div>
 
             </div>
+            <button onclick="loadVideoDettails('${video.video_id}')" class="btn btn-block">Show Video Details</button>
         </div>
         `;
         videoContainer.append(div);
     }
 }
+const searchText = getElementId('search-input');
+searchText.addEventListener("keyup",(e)=>{
+    getvideo(e.target.value);
+})
 getCategories()
