@@ -1,3 +1,15 @@
+const loaderShow = () => {
+    const loader = getElementId('loadder');
+    const videoContainer = getElementId('videoContainer');
+    loader.classList.remove('hidden');
+    videoContainer.classList.add('hidden');
+}
+const loaderDisabled = () => {
+    const loader = getElementId('loadder');
+    const videoContainer = getElementId('videoContainer');
+    loader.classList.add('hidden');
+    videoContainer.classList.remove('hidden');
+}
 const acriveClassRemove = () => {
     const acriveClass = document.getElementsByClassName('bg-btnBgRed');
     for (const active of acriveClass) {
@@ -11,6 +23,7 @@ const getCategories = () => {
         .then(data => displayCategories(data.categories))
 }
 const getvideo = (searchText = '') => {
+    loaderShow()
     fetch(`https://openapi.programming-hero.com/api/phero-tube/videos?title=${searchText}`)
         .then(res => res.json())
         .then(data => {
@@ -22,6 +35,7 @@ const getvideo = (searchText = '') => {
         })
 }
 const loadCategoryVideos = (id) => {
+    loaderShow()
     const url = ` https://openapi.programming-hero.com/api/phero-tube/category/${id}`
     fetch(url).then(res => res.json()).then(data => {
         acriveClassRemove();
@@ -44,6 +58,7 @@ const displayVideoDetails = (video) => {
     `;
 }
 const displayCategories = (categories) => {
+
     for (const category of categories) {
         const categoryContainer = getElementId('categoryContainer');
         const div = newElement('div')
@@ -54,7 +69,7 @@ const displayCategories = (categories) => {
     }
 }
 const displayVideo = (videos) => {
-    console.log(videos)
+    loaderDisabled()
     const videoContainer = getElementId('videoContainer');
     videoContainer.innerHTML = '';
     if (videos.length === 0) {
@@ -99,7 +114,8 @@ const displayVideo = (videos) => {
     }
 }
 const searchText = getElementId('search-input');
-searchText.addEventListener("keyup",(e)=>{
+searchText.addEventListener("keyup", (e) => {
     getvideo(e.target.value);
 })
 getCategories()
+getvideo()
