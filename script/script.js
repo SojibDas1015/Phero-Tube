@@ -2,7 +2,7 @@ const loaderShow = () => {
     const loader = getElementId('loadder');
     const videoContainer = getElementId('videoContainer');
     loader.classList.remove('hidden');
-
+    videoContainer.classList.add('hidden');
 }
 const loaderDisabled = () => {
     const loader = getElementId('loadder');
